@@ -51,6 +51,11 @@ const Crud = () => {
         setSubmitted(false);
         setProductDialog(true);
     };
+    const openNew2 = () => {
+        setProduct(emptyProduct);
+        setSubmitted(false);
+        setProductDialog(true);
+    };
 
     const hideDialog = () => {
         setSubmitted(false);
@@ -204,6 +209,14 @@ const Crud = () => {
             </>
         );
     };
+    const addressBodyTemplate = (rowData) => {
+        return (
+            <>
+                <span className="p-column-title"> Address </span>
+                {rowData.address}
+            </>
+        );
+    };
 
     const imageBodyTemplate = (rowData) => {
         return (
@@ -223,11 +236,19 @@ const Crud = () => {
         );
     };
 
-    const categoryBodyTemplate = (rowData) => {
+    const missionBodyTemplate = (rowData) => {
         return (
             <>
-                <span className="p-column-title">Category</span>
-                {rowData.category}
+                <span className="p-column-title">Mission</span>
+                {rowData.mission}
+            </>
+        );
+    };
+    const visionBodyTemplate = (rowData) => {
+        return (
+            <>
+                <span className="p-column-title">Vision</span>
+                {rowData.vision}
             </>
         );
     };
@@ -250,6 +271,14 @@ const Crud = () => {
         );
     };
 
+    const employeeBodyTemplate = (rowData) => {
+        return (
+            <>
+                <span className="p-column-title">   Employee</span>
+                <Button label="Add Employee" icon="pi pi-plus" severity="sucess" className="mr-2" onClick={openNew2} />            </>
+        );
+    };
+
     const actionBodyTemplate = (rowData) => {
         return (
             <>
@@ -258,6 +287,7 @@ const Crud = () => {
             </>
         );
     };
+
 
     const header = (
         <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
@@ -313,29 +343,38 @@ const Crud = () => {
                         responsiveLayout="scroll"
                     >
                         <Column selectionMode="multiple" headerStyle={{ width: '4rem' }}></Column>
-                        <Column field="code" header="Code" sortable body={codeBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column field="name" header="Name" sortable body={nameBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
-                        <Column header="Image" body={imageBodyTemplate}></Column>
-                        <Column field="price" header="Price" body={priceBodyTemplate} sortable></Column>
-                        <Column field="category" header="Category" sortable body={categoryBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
-                        <Column field="rating" header="Reviews" body={ratingBodyTemplate} sortable></Column>
-                        <Column field="inventoryStatus" header="Status" body={statusBodyTemplate} sortable headerStyle={{ minWidth: '10rem' }}></Column>
+                        {/* <Column field="code" header="Code" sortable body={codeBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column> */}
+                        <Column field="name" header="Company Name" sortable body={nameBodyTemplate} headerStyle={{ minWidth: '11.5rem' }}></Column>
+                        {/* <Column header="Image" body={imageBodyTemplate}></Column> */}
+                        <Column field="address" header="Address" body={addressBodyTemplate} sortable headerStyle={{ minWidth: '12.5rem' }}></Column>
+                        <Column field="mission" header="Mission statement" sortable body={missionBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column>
+                        <Column field="vison" header="Vision statement" sortable body={visionBodyTemplate} headerStyle={{ minWidth: '15rem', maxWidth: '15rem'}}></Column>
+                        <Column field="employee" header="Add Employee" body={employeeBodyTemplate} sortable headerStyle={{ minWidth: '10rem', maxWidth: '15rem'}}></Column>
                         <Column body={actionBodyTemplate} headerStyle={{ minWidth: '10rem' }}></Column>
                     </DataTable>
 
-                    <Dialog visible={productDialog} style={{ width: '450px' }} header="Product Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
+                    <Dialog visible={productDialog} style={{ width: '450px' }} header="Enter Organisation Details" modal className="p-fluid" footer={productDialogFooter} onHide={hideDialog}>
                         {product.image && <img src={`/demo/images/product/${product.image}`} alt={product.image} width="150" className="mt-0 mx-auto mb-5 block shadow-2" />}
                         <div className="field">
-                            <label htmlFor="name">Name</label>
+                            <label htmlFor="name">Company Name</label>
                             <InputText id="name" value={product.name} onChange={(e) => onInputChange(e, 'name')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.name })} />
                             {submitted && !product.name && <small className="p-invalid">Name is required.</small>}
                         </div>
                         <div className="field">
-                            <label htmlFor="description">Description</label>
-                            <InputTextarea id="description" value={product.description} onChange={(e) => onInputChange(e, 'description')} required rows={3} cols={20} />
+                            <label htmlFor="address">Address</label>
+                            <InputText id="address" value={product.address} onChange={(e) => onInputChange(e, 'address')} required autoFocus className={classNames({ 'p-invalid': submitted && !product.address })} />
+                            {submitted && !product.address && <small className="p-invalid">Address is required.</small>}
+                        </div>
+                        <div className="field">
+                            <label htmlFor="mission">Mission Statement</label>
+                            <InputTextarea id="mission" value={product.mission} onChange={(e) => onInputChange(e, 'mission')} required rows={3} cols={20} />
+                        </div>
+                        <div className="field">
+                            <label htmlFor="vision">Vision Statement</label>
+                            <InputTextarea id="vision" value={product.vision} onChange={(e) => onInputChange(e, 'vision')} required rows={3} cols={20} />
                         </div>
 
-                        <div className="field">
+                        {/* <div className="field">
                             <label className="mb-3">Category</label>
                             <div className="formgrid grid">
                                 <div className="field-radiobutton col-6">
@@ -355,9 +394,9 @@ const Crud = () => {
                                     <label htmlFor="category4">Fitness</label>
                                 </div>
                             </div>
-                        </div>
+                        </div> */}
 
-                        <div className="formgrid grid">
+                        {/* <div className="formgrid grid">
                             <div className="field col">
                                 <label htmlFor="price">Price</label>
                                 <InputNumber id="price" value={product.price} onValueChange={(e) => onInputNumberChange(e, 'price')} mode="currency" currency="USD" locale="en-US" />
@@ -366,7 +405,7 @@ const Crud = () => {
                                 <label htmlFor="quantity">Quantity</label>
                                 <InputNumber id="quantity" value={product.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} integeronly="true" />
                             </div>
-                        </div>
+                        </div> */}
                     </Dialog>
 
                     <Dialog visible={deleteProductDialog} style={{ width: '450px' }} header="Confirm" modal footer={deleteProductDialogFooter} onHide={hideDeleteProductDialog}>
