@@ -135,8 +135,8 @@ const Dashboard = () => {
         <div className="card mb-0">
           <div className="flex justify-content-between mb-3">
             <div>
-              <span className="block text-500 font-medium mb-3">Demo Admin</span>
-              <div className="text-900 font-medium text-xl">Admin</div>
+              <h5>Welcome!</h5>
+              <div className="text-500 font-medium text-xl">Admin</div>
             </div>
             <div
               className="flex align-items-center justify-content-center bg-purple-100 border-round"
@@ -146,8 +146,20 @@ const Dashboard = () => {
               
             </div>
           </div>
-          <span className="text-green-500 font-medium">My profile  </span><br/>
-          <span className="text-500">Account Settings</span>
+          <Button
+          label="My Profile"
+          icon="pi pi-plus"
+          severity="sucess"
+          className="mr-2"
+        //   onClick={openNew2}
+        /> <br/>
+                  <Button
+          label="Settings"
+          icon="pi pi-plus"
+          severity="sucess"
+          className="mr-2"
+        //   onClick={openNew2}
+        />
         </div>
       </div>
 
