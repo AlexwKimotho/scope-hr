@@ -1,12 +1,9 @@
 import { Button } from "primereact/button";
 import { Chart } from "primereact/chart";
-import { Column } from "primereact/column";
-import { DataTable } from "primereact/datatable";
-import { Menu } from "primereact/menu";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import { ProductService } from "../demo/service/ProductService";
 import { LayoutContext } from "../layout/context/layoutcontext";
-import Link from "next/link";
+
 const lineData = {
   labels: [
     "January",
@@ -45,6 +42,10 @@ const Dashboard = () => {
   const menu2 = useRef(null);
   const [lineOptions, setLineOptions] = useState(null);
   const { layoutConfig } = useContext(LayoutContext);
+  const [time, setTime] = useState(new Date());
+  const [profilePicture, setProfilePicture] = useState(
+    "/default-profile-picture.jpg"
+  );
 
   const applyLightTheme = () => {
     const lineOptions = {
@@ -122,12 +123,44 @@ const Dashboard = () => {
     }
   }, [layoutConfig.colorScheme]);
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setTime(new Date());
+    }, 1000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
+
   const formatCurrency = (value) => {
     return value.toLocaleString("en-US", {
       style: "currency",
       currency: "USD",
     });
   };
+
+  const handlePictureChange = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setProfilePicture(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
+  };
+
+  const options = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+  const formattedDate = time.toLocaleDateString(undefined, options);
+  const formattedTime = time.toLocaleTimeString();
 
   return (
     <div className="grid">
@@ -138,35 +171,41 @@ const Dashboard = () => {
               <h5>Welcome!</h5>
               <div className="text-500 font-medium text-xl">Admin</div>
             </div>
-            <div
-              className="flex align-items-center justify-content-center bg-purple-100 border-round"
-              style={{ width: "2.5rem", height: "2.5rem" }}
-            >
-              <i className="pi pi-comment text-purple-500 text-xl" />
-              
+            <div className="profile-picture-container">
+              <img
+                src={profilePicture}
+                alt="Profile"
+                className="profile-picture"
+              />
+              <div className="profile-picture-overlay">
+                <input
+                  type="file"
+                  onChange={handlePictureChange}
+                  accept="image/*"
+                />
+              </div>
+              <br/>
+              <input type="file" onChange={handlePictureChange} />
             </div>
           </div>
-          <Button
-          label="My Profile"
-          icon="pi pi-plus"
-          severity="sucess"
-          className="mr-2"
-        //   onClick={openNew2}
-        /> <br/>
-                  <Button
-          label="Settings"
-          icon="pi pi-plus"
-          severity="sucess"
-          className="mr-2"
-        //   onClick={openNew2}
-        />
-        </div>
-      </div>
-
-      <div className="col-12 xl:col-8">
-        <div className="card">
-          <h5>Annual Leave Days Taken Monthly </h5>
-          <Chart type="line" data={lineData} options={lineOptions} />
+          <div className="ml-2">
+            <h6>Today is {formattedDate}</h6>
+            <h6>{formattedTime}</h6>
+          </div>
+          <div className="flex justify-content-between mt-3">
+            <Button
+              label="My Profile"
+              icon="pi pi-user-edit"
+              severity="success"
+              className="mr-4"
+            />
+            <Button
+              label="Settings"
+              icon="pi pi-th-large"
+              severity="success"
+              className="mr-4"
+            />
+          </div>
         </div>
       </div>
     </div>
