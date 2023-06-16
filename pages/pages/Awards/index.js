@@ -225,11 +225,11 @@ const Award = () => {
     );
   };
 
-  const companyNameBodyTemplate = (rowData) => {
+  const nameBodyTemplate = (rowData) => {
     return (
       <>
         <span className="p-column-title"> Company Name</span>
-        {rowData.companyName}
+        {rowData.companyname}
       </>
     );
   };
@@ -356,7 +356,7 @@ const Award = () => {
               field="name"
               header="Company Name"
               sortable
-              body={companyNameBodyTemplate}
+              body={nameBodyTemplate}
               headerStyle={{ minWidth: "13rem" }}
             ></Column>
             {/* <Column header="Image" body={imageBodyTemplate}></Column> */}
@@ -398,19 +398,20 @@ const Award = () => {
                 className="mt-0 mx-auto mb-5 block shadow-2"
               />
             )}
+            
             <div className="field">
               <label htmlFor="awardName">Award Name</label>
               <InputText
                 id="name"
-                value={product.companyName}
+                value={product.name}
                 onChange={(e) => onInputChange(e, "name")}
                 required
                 // autoFocus
                 className={classNames({
-                  "p-invalid": submitted && !product.awardName,
+                  "p-invalid": submitted && !product.name,
                 })}
               />
-              {submitted && !product.awardName && (
+              {submitted && !product.name && (
                 <small className="p-invalid">Name is required.</small>
               )}
             </div>
