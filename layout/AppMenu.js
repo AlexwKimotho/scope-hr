@@ -24,7 +24,7 @@ const AppMenu = () => {
           items: [
             { label: "Organization Profile", icon: "pi pi-fw pi-database", to: "/pages/Organisation-profile" },
             { label: "Divisions", icon: "pi pi-fw pi-building", to: "/pages/Divisions" },
-            { label: "Departments", icon: "pi pi-fw pi-sitemap" },
+            { label: "Departments", icon: "pi pi-fw pi-sitemap", to: "/pages/Departments"},
             { label: "Organization Awards", icon: "pi pi-fw pi-ticket" },
           ],
         },

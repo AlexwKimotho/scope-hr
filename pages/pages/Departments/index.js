@@ -10,9 +10,8 @@ import { Toast } from "primereact/toast";
 import { Toolbar } from "primereact/toolbar";
 import { classNames } from "primereact/utils";
 import React, { useEffect, useRef, useState } from "react";
-import { Divisions } from "../../../demo/service/Divisions";
-import axios from "axios";
-const Division = () => {
+import { Departments } from "../../../demo/service/Departments";
+const Department = () => {
   let emptyProduct = {
     id: null,
     name: "",
@@ -25,8 +24,8 @@ const Division = () => {
     inventoryStatus: "INSTOCK",
   };
 
-  const [products, setDivisions] = useState(null);
-  const [productDialog, setDivisionDialog] = useState(false);
+  const [products, setDepartments] = useState(null);
+  const [productDialog, setDepartmentDialog] = useState(false);
   const [deleteProductDialog, setDeleteProductDialog] = useState(false);
   const [deleteProductsDialog, setDeleteProductsDialog] = useState(false);
   const [product, setProduct] = useState(emptyProduct);
@@ -37,7 +36,7 @@ const Division = () => {
   const dt = useRef(null);
 
   useEffect(() => {
-    Divisions.getDivisions().then((data) => setDivisions(data));
+    Departments.getDepartments().then((data) => setDepartments(data));
   }, []);
 
   const formatCurrency = (value) => {
@@ -50,17 +49,17 @@ const Division = () => {
   const openNew = () => {
     setProduct(emptyProduct);
     setSubmitted(false);
-    setDivisionDialog(true);
+    setDepartmentDialog(true);
   };
   const openNew2 = () => {
     setProduct(emptyProduct);
     setSubmitted(false);
-    setDivisionDialog(true);
+    setDepartmentDialog(true);
   };
 
   const hideDialog = () => {
     setSubmitted(false);
-    setDivisionDialog(false);
+    setDepartmentDialog(false);
   };
 
   const hideDeleteProductDialog = () => {
@@ -100,15 +99,15 @@ const Division = () => {
         });
       }
 
-      setDivisions(_products);
-      setDivisionDialog(false);
+      setDepartments(_products);
+      setDepartmentDialog(false);
       setProduct(emptyProduct);
     }
   };
 
   const editProduct = (product) => {
     setProduct({ ...product });
-    setDivisionDialog(true);
+    setDepartmentDialog(true);
   };
 
   const confirmDeleteProduct = (product) => {
@@ -118,7 +117,7 @@ const Division = () => {
 
   const deleteProduct = () => {
     let _products = products.filter((val) => val.id !== product.id);
-    setDivisions(_products);
+    setDepartments(_products);
     setDeleteProductDialog(false);
     setProduct(emptyProduct);
     toast.current.show({
@@ -161,7 +160,7 @@ const Division = () => {
 
   const deleteSelectedProducts = () => {
     let _products = products.filter((val) => !selectedProducts.includes(val));
-    setDivisions(_products);
+    setDepartments(_products);
     setDeleteProductsDialog(false);
     setSelectedProducts(null);
     toast.current.show({
@@ -199,7 +198,7 @@ const Division = () => {
       <React.Fragment>
         <div className="my-2">
           <Button
-            label="New Division"
+            label="New Department"
             icon="pi pi-plus"
             severity="sucess"
             className="mr-2"
@@ -238,51 +237,19 @@ const Division = () => {
     );
   };
 
-  const codeBodyTemplate = (rowData) => {
+  const departmentNameBodyTemplate = (rowData) => {
     return (
       <>
-        <span className="p-column-title">Coddde</span>
-        {rowData.code}
+        <span className="p-column-title"> Department Name</span>
+        {rowData.departmentName}
       </>
     );
   };
-
-  const divisionNameBodyTemplate = (rowData) => {
+  const departmentHeadBodyTemplate = (rowData) => {
     return (
       <>
-        <span className="p-column-title"> Division Name</span>
-        {rowData.divisionName}
-      </>
-    );
-  };
-  const divisionHeadBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title"> Division Head </span>
-        {rowData.divisionHead}
-      </>
-    );
-  };
-
-  const imageBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title">Image</span>
-        <img
-          src={`/demo/images/product/${rowData.image}`}
-          alt={rowData.image}
-          className="shadow-2"
-          width="100"
-        />
-      </>
-    );
-  };
-
-  const priceBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title">Price</span>
-        {formatCurrency(rowData.price)}
+        <span className="p-column-title"> Department Head </span>
+        {rowData.departmentHead}
       </>
     );
   };
@@ -385,7 +352,7 @@ const Division = () => {
 
   const header = (
     <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-      <h5 className="m-0"> Division </h5>
+      <h5 className="m-0"> Department </h5>
       <span className="block mt-2 md:mt-0 p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
@@ -466,16 +433,16 @@ const Division = () => {
             {/* <Column field="code" header="Code" sortable body={codeBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column> */}
             <Column
               field="name"
-              header="Division Name"
+              header="Department Name"
               sortable
-              body={divisionNameBodyTemplate}
-              headerStyle={{ minWidth: "11.5rem" }}
+              body={departmentNameBodyTemplate}
+              headerStyle={{ minWidth: "13rem" }}
             ></Column>
             {/* <Column header="Image" body={imageBodyTemplate}></Column> */}
             <Column
               field="name"
-              header="Division Head"
-              body={divisionHeadBodyTemplate}
+              header="Department Head"
+              body={departmentHeadBodyTemplate}
               sortable
               headerStyle={{ minWidth: "12.5rem" }}
             ></Column>
@@ -502,7 +469,7 @@ const Division = () => {
           <Dialog
             visible={productDialog}
             style={{ width: "450px" }}
-            header="Create Division"
+            header="Create Department"
             modal
             className="p-fluid"
             footer={productDialogFooter}
@@ -517,27 +484,27 @@ const Division = () => {
               />
             )}
             <div className="field">
-              <label htmlFor="divisionName">Division Name</label>
+              <label htmlFor="departmentName">Department Name</label>
               <InputText
                 id="name"
-                value={product.divisionName}
+                value={product.departmentName}
                 onChange={(e) => onInputChange(e, "name")}
                 required
                 // autoFocus
                 className={classNames({
-                  "p-invalid": submitted && !product.divisionName,
+                  "p-invalid": submitted && !product.departmentName,
                 })}
               />
-              {submitted && !product.divisionName && (
+              {submitted && !product.departmentName && (
                 <small className="p-invalid">Name is required.</small>
               )}
             </div>
             <div className="field">
-              <label htmlFor="divisionHead">Division Head</label>
+              <label htmlFor="departmentHead">Department Head</label>
               <InputText
                 id="address"
-                value={product.divisionHead}
-                onChange={(e) => onInputChange(e, "divisionHead")}
+                value={product.departmentHead}
+                onChange={(e) => onInputChange(e, "departmentHead")}
                 required
                 autoFocus
               />
@@ -593,7 +560,7 @@ const Division = () => {
               />
               {product && (
                 <span>
-                  Are you sure you want to delete the selected products?
+                  Are you sure you want to delete the selected departments?
                 </span>
               )}
             </div>
@@ -604,7 +571,7 @@ const Division = () => {
   );
 };
 
-export default Division;
+export default Department;
 
 
 
