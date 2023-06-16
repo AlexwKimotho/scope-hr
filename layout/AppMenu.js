@@ -25,7 +25,7 @@ const AppMenu = () => {
             { label: "Organization Profile", icon: "pi pi-fw pi-database", to: "/pages/Organisation-profile" },
             { label: "Divisions", icon: "pi pi-fw pi-building", to: "/pages/Divisions" },
             { label: "Departments", icon: "pi pi-fw pi-sitemap", to: "/pages/Departments"},
-            { label: "Organization Awards", icon: "pi pi-fw pi-ticket" },
+            { label: "Organization Awards", icon: "pi pi-fw pi-ticket", to: "/pages/Awards" },
           ],
         },
         {
@@ -96,7 +96,7 @@ const AppMenu = () => {
         {
           label: "User Accounts",
           icon: "pi pi-fw pi-users",
-          to: "/pages/crud",
+          to: "/pages/SignIn",
         },
         {
             label: "My Account",
