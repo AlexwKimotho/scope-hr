@@ -199,7 +199,7 @@ const OragnizationProfile = () => {
       <React.Fragment>
         <div className="my-2">
           <Button
-            label="New"
+            label="New Organization"
             icon="pi pi-plus"
             severity="sucess"
             className="mr-2"
@@ -453,7 +453,7 @@ const OragnizationProfile = () => {
             rowsPerPageOptions={[5, 10, 25]}
             className="datatable-responsive"
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Organization"
             globalFilter={globalFilter}
             emptyMessage="No products found."
             header={header}
