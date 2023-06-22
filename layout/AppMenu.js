@@ -99,11 +99,11 @@ const AppMenu = () => {
           to: "/pages/Form",
         },
         {
-            label: "My Account",
+            label: "Login",
             icon: "pi pi-fw pi-user",
             to: "/pages/login",
           },   {
-            label: "Manage Password ",
+            label: "signup ",
             icon: "pi pi-fw pi-lock",
             to: "/pages/signup",
           },
