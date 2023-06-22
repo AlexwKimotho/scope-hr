@@ -46,7 +46,7 @@ const AppMenu = () => {
           {
             label: "Timesheet",
             icon: "pi pi-fw pi-clock",
-            to: "/pages/crud",
+            to: "/pages/timesheet",
           },
           {
             label: "Gig Platform",
