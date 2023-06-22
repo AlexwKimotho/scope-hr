@@ -101,11 +101,11 @@ const AppMenu = () => {
         {
             label: "My Account",
             icon: "pi pi-fw pi-user",
-            to: "/pages/crud",
+            to: "/pages/login",
           },   {
             label: "Manage Password ",
             icon: "pi pi-fw pi-lock",
-            to: "/pages/crud",
+            to: "/pages/signup",
           },
       ],
     },
