@@ -94,9 +94,9 @@ const AppMenu = () => {
       label: "Account Management",
       items: [
         {
-          label: "User Accounts",
+          label: "Form",
           icon: "pi pi-fw pi-users",
-          to: "/pages/SignIn",
+          to: "/pages/Form",
         },
         {
             label: "My Account",
