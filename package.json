@@ -5,8 +5,9 @@
     "scripts": {
         "dev": "next dev",
         "build": "next build",
-        "start": "next start",
-        "lint": "next lint"
+        "lint": "next lint",
+        "export": "next build && next export",
+        "start": "NODE_ENV=production node ./server.js"
     },
     "dependencies": {
         "antd": "^5.6.1",
