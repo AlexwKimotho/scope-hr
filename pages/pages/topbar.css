@@ -1,0 +1,10 @@
+.layout-topbar-menu {
+    /* Your existing styles */
+    opacity: 0;
+    transition: opacity 0.3s ease-in-out;
+  }
+  
+  .layout-topbar-menu-visible {
+    opacity: 1;
+  }
+  

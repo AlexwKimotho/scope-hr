@@ -32,7 +32,7 @@ const AppMenu = () => {
           label: "Employees",
           icon: "pi pi-fw pi-users",
           items: [
-            { label: "Employee Data", icon: "pi pi-fw pi-user-edit" },
+            { label: "Employee Data", icon: "pi pi-fw pi-user-edit", to: "/pages/EmployeeData" },
             { label: "Employee Learning", icon: "pi pi-fw pi-book" },
             { label: "Employee Reward", icon: "pi pi-fw pi-inbox" },
             { label: "Contracts", icon: "pi pi-fw pi-file" },
