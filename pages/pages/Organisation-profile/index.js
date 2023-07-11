@@ -64,7 +64,7 @@ const OragnizationProfile = () => {
   };
 
   const hideDeleteProductDialog = () => {
-    setDeleteProductDialog(false);
+    setDeleteProductDialog(false);5
   };
 
   const hideDeleteProductsDialog = () => {

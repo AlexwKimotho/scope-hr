@@ -11,6 +11,10 @@ import { Toolbar } from "primereact/toolbar";
 import { classNames } from "primereact/utils";
 import React, { useEffect, useRef, useState } from "react";
 import { ProductService } from "../../../demo/service/ProductService";
+import { Dropdown } from "primereact/dropdown";
+import { Calendar } from "primereact/calendar";
+import { DivisionDataComponent } from "../../../demo/service/Divisions";
+
 
 const OragnizationProfile = () => {
   let emptyProduct = {
@@ -39,6 +43,36 @@ const OragnizationProfile = () => {
   useEffect(() => {
     ProductService.getProducts().then((data) => setProducts(data));
   }, []);
+
+  const countryCodes = [
+    { label: "+1", value: "1" },
+    { label: "+91", value: "91" },
+    // Add more country codes as needed
+  ];
+
+  function handleDateOfBirthChange(e) {
+    const selectedDate = e.value;
+    if (isUnderAge(selectedDate)) {
+      // Perform any necessary actions when the user selects an invalid date
+      // You can show an error message or handle it based on your requirements
+    } else {
+      // Update the state with the selected date
+      onInputChange(e, "dob");
+    }
+  }
+
+  function maxAllowedDate() {
+    const currentDate = new Date();
+    currentDate.setFullYear(currentDate.getFullYear() - 18);
+    return currentDate;
+  }
+
+  function isUnderAge(date) {
+    const currentDate = new Date();
+    const selectedDate = new Date(date);
+    selectedDate.setFullYear(selectedDate.getFullYear() + 18);
+    return currentDate < selectedDate;
+  }
 
   const formatCurrency = (value) => {
     return value.toLocaleString("en-US", {
@@ -199,7 +233,7 @@ const OragnizationProfile = () => {
       <React.Fragment>
         <div className="my-2">
           <Button
-            label="New Organization"
+            label="New Employee"
             icon="pi pi-plus"
             severity="sucess"
             className="mr-2"
@@ -385,7 +419,7 @@ const OragnizationProfile = () => {
 
   const header = (
     <div className="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-      <h5 className="m-0">Organization profile</h5>
+      <h5 className="m-0">Employee Data</h5>
       <span className="block mt-2 md:mt-0 p-input-icon-left">
         <i className="pi pi-search" />
         <InputText
@@ -513,7 +547,7 @@ const OragnizationProfile = () => {
               headerStyle={{ minWidth: "10rem" }}
             ></Column>
           </DataTable>
-
+          {/* create a new employee form */}
           <Dialog
             visible={productDialog}
             style={{ width: "450px" }}
@@ -532,7 +566,7 @@ const OragnizationProfile = () => {
               />
             )}
             <div className="field">
-              <label htmlFor="name">Company Name</label>
+              <label htmlFor="name">Employee Name</label>
               <InputText
                 id="name"
                 value={product.name}
@@ -548,77 +582,388 @@ const OragnizationProfile = () => {
               )}
             </div>
             <div className="field">
-              <label htmlFor="address">Address</label>
-              <InputText
-                id="address"
-                value={product.address}
-                onChange={(e) => onInputChange(e, "address")}
+              <label htmlFor="gender">Gender</label>
+              <Dropdown
+                id="gender"
+                value={product.gender}
+                options={[
+                  { label: "Male", value: "Male" },
+                  { label: "Female", value: "Female" },
+                ]}
+                onChange={(e) => onInputChange(e, "gender")}
                 required
-                autoFocus
                 className={classNames({
-                  "p-invalid": submitted && !product.address,
+                  "p-invalid": submitted && !product.gender,
+                })}
+                placeholder="Select Gender"
+              />
+              {submitted && !product.gender && (
+                <small className="p-invalid">Gender is required.</small>
+              )}
+            </div>
+
+            <div className="field">
+              <label htmlFor="dob">Date of Birth</label>
+              <Calendar
+                id="dob"
+                value={product.dob}
+                onChange={(e) => onInputChange(e, "dob")}
+                dateFormat="yy-mm-dd"
+                required
+                className={classNames({
+                  "p-invalid": submitted && !product.dob,
                 })}
               />
-              {submitted && !product.address && (
-                <small className="p-invalid">Address is required.</small>
+              {submitted && !product.dob && (
+                <small className="p-invalid">Date of Birth is required.</small>
+              )}
+            </div>
+
+            <div className="field">
+              <label htmlFor="maritalStatus">Marital Status</label>
+              <Dropdown
+                id="maritalStatus"
+                value={product.maritalStatus}
+                options={[
+                  { label: "Single", value: "Single" },
+                  { label: "Married", value: "Married" },
+                  { label: "Divorced", value: "Divorced" },
+                  { label: "Separated", value: "Separated" },
+                ]}
+                onChange={(e) => onInputChange(e, "maritalStatus")}
+                required
+                className={classNames({
+                  "p-invalid": submitted && !product.maritalStatus,
+                })}
+                placeholder="Select Marital Status"
+              />
+              {submitted && !product.maritalStatus && (
+                <small className="p-invalid">Marital Status is required.</small>
+              )}
+            </div>
+
+            <div className="field">
+              <label htmlFor="idNumber">ID Number</label>
+              <InputText
+                id="idNumber"
+                value={product.idNumber}
+                onChange={(e) => onInputChange(e, "idNumber")}
+                required
+                className={classNames({
+                  "p-invalid": submitted && !product.idNumber,
+                })}
+              />
+              {submitted && !product.idNumber && (
+                <small className="p-invalid">ID Number is required.</small>
               )}
             </div>
             <div className="field">
-              <label htmlFor="mission">Mission Statement</label>
-              <InputTextarea
-                id="mission"
-                value={product.mission}
-                onChange={(e) => onInputChange(e, "mission")}
+              <label htmlFor="kraNumber">KRA Number</label>
+              <InputText
+                id="kraNumber"
+                value={product.kraNumber}
+                onChange={(e) => onInputChange(e, "kraNumber")}
                 required
-                rows={3}
-                cols={20}
+                className={classNames({
+                  "p-invalid": submitted && !product.kraNumber,
+                })}
               />
+              {submitted && !product.kraNumber && (
+                <small className="p-invalid">KRA Number is required.</small>
+              )}
             </div>
             <div className="field">
-              <label htmlFor="vision">Vision Statement</label>
-              <InputTextarea
-                id="vision"
-                value={product.vision}
-                onChange={(e) => onInputChange(e, "vision")}
+              <label htmlFor="nssf">NSSF Number</label>
+              <InputText
+                id="nssf"
+                value={product.nssf}
+                onChange={(e) => onInputChange(e, "nssf")}
                 required
-                rows={3}
-                cols={20}
+                className={classNames({
+                  "p-invalid": submitted && !product.nssf,
+                })}
               />
+              {submitted && !product.nssf && (
+                <small className="p-invalid">NSSF Number is required.</small>
+              )}
+            </div>
+            <div className="field">
+              <label htmlFor="nhif">NHIF Number</label>
+              <InputText
+                id="nhif"
+                value={product.nhif}
+                onChange={(e) => onInputChange(e, "nhif")}
+                required
+                className={classNames({
+                  "p-invalid": submitted && !product.nhif,
+                })}
+              />
+              {submitted && !product.nhif && (
+                <small className="p-invalid">NHIF Number is required.</small>
+              )}
+            </div>
+            <div className="field">
+              <label htmlFor="phoneNumber">Phone Number</label>
+              <div className="p-inputgroup">
+                <Dropdown
+                  id="countryCode"
+                  value={product.countryCode}
+                  options={countryCodes}
+                  onChange={(e) => onInputChange(e, "countryCode")}
+                  className="country-code-dropdown"
+                />
+                <InputText
+                  id="phoneNumber"
+                  value={product.phoneNumber}
+                  onChange={(e) => onInputChange(e, "phoneNumber")}
+                  required
+                  className={classNames({
+                    "p-invalid": submitted && !product.phoneNumber,
+                  })}
+                />
+              </div>
+              {submitted && !product.phoneNumber && (
+                <small className="p-invalid">Phone Number is required.</small>
+              )}
             </div>
 
-            {/* <div className="field">
-                            <label className="mb-3">Category</label>
-                            <div className="formgrid grid">
-                                <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category1" name="category" value="Accessories" onChange={onCategoryChange} checked={product.category === 'Accessories'} />
-                                    <label htmlFor="category1">Accessories</label>
-                                </div>
-                                <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category2" name="category" value="Clothing" onChange={onCategoryChange} checked={product.category === 'Clothing'} />
-                                    <label htmlFor="category2">Clothing</label>
-                                </div>
-                                <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category3" name="category" value="Electronics" onChange={onCategoryChange} checked={product.category === 'Electronics'} />
-                                    <label htmlFor="category3">Electronics</label>
-                                </div>
-                                <div className="field-radiobutton col-6">
-                                    <RadioButton inputId="category4" name="category" value="Fitness" onChange={onCategoryChange} checked={product.category === 'Fitness'} />
-                                    <label htmlFor="category4">Fitness</label>
-                                </div>
-                            </div>
-                        </div> */}
+            <div className="field">
+              <label htmlFor="nextOfKinName">Next of Kin Name</label>
+              <InputText
+                id="nextOfKinName"
+                value={product.nextOfKinName}
+                onChange={(e) => onInputChange(e, "nextOfKinName")}
+                required
+                className={classNames({
+                  "p-invalid": submitted && !product.nextOfKinName,
+                })}
+              />
+              {submitted && !product.nextOfKinName && (
+                <small className="p-invalid">
+                  Next of Kin Name is required.
+                </small>
+              )}
+            </div>
 
-            {/* <div className="formgrid grid">
-                            <div className="field col">
-                                <label htmlFor="price">Price</label>
-                                <InputNumber id="price" value={product.price} onValueChange={(e) => onInputNumberChange(e, 'price')} mode="currency" currency="USD" locale="en-US" />
-                            </div>
-                            <div className="field col">
-                                <label htmlFor="quantity">Quantity</label>
-                                <InputNumber id="quantity" value={product.quantity} onValueChange={(e) => onInputNumberChange(e, 'quantity')} integeronly="true" />
-                            </div>
-                        </div> */}
+            <div className="field">
+              <label htmlFor="nextOfKinEmail">Next of Kin Email</label>
+              <InputText
+                id="nextOfKinEmail"
+                value={product.nextOfKinEmail}
+                onChange={(e) => onInputChange(e, "nextOfKinEmail")}
+                required
+                className={classNames({
+                  "p-invalid": submitted && !product.nextOfKinEmail,
+                })}
+              />
+              {submitted && !product.nextOfKinEmail && (
+                <small className="p-invalid">
+                  Next of Kin Email is required.
+                </small>
+              )}
+            </div>
+
+            <div className="field">
+              <label htmlFor="nextOfKinPhoneNumber">
+                Next of Kin Phone Number
+              </label>
+              <div className="p-inputgroup">
+                <Dropdown
+                  id="nextOfKinCountryCode"
+                  value={product.nextOfKinCountryCode}
+                  options={countryCodes}
+                  onChange={(e) => onInputChange(e, "nextOfKinCountryCode")}
+                  className="country-code-dropdown"
+                />
+                <InputText
+                  id="nextOfKinPhoneNumber"
+                  value={product.nextOfKinPhoneNumber}
+                  onChange={(e) => onInputChange(e, "nextOfKinPhoneNumber")}
+                  required
+                  className={classNames({
+                    "p-invalid": submitted && !product.nextOfKinPhoneNumber,
+                  })}
+                />
+              </div>
+              {submitted && !product.nextOfKinPhoneNumber && (
+                <small className="p-invalid">
+                  Next of Kin Phone Number is required.
+                </small>
+              )}
+            </div>
+
+            <div className="field">
+  <label htmlFor="staffNo">Employee Staff No</label>
+  <InputText
+    id="staffNo"
+    value={product.staffNo}
+    onChange={(e) => onInputChange(e, 'staffNo')}
+    required
+    className={classNames({
+      'p-invalid': submitted && !product.staffNo,
+    })}
+  />
+  {submitted && !product.staffNo && (
+    <small className="p-invalid">Employee Staff No is required.</small>
+  )}
+</div>
+
+<div className="field">
+  <label htmlFor="division">Division</label>
+  <InputText
+    id="division"
+    value={product.division}
+    onChange={(e) => onInputChange(e, 'division')}
+    required
+    className={classNames({
+      'p-invalid': submitted && !product.division,
+    })}
+  />
+  {submitted && !product.division && (
+    <small className="p-invalid">Division is required.</small>
+  )}
+</div>
+
+<div className="field">
+  <label htmlFor="department">Department</label>
+  <InputText
+    id="department"
+    value={product.department}
+    onChange={(e) => onInputChange(e, 'department')}
+    required
+    className={classNames({
+      'p-invalid': submitted && !product.department,
+    })}
+  />
+  {submitted && !product.department && (
+    <small className="p-invalid">Department is required.</small>
+  )}
+</div>
+<div className="field">
+  <label htmlFor="jobTitle">Job Title</label>
+  <InputText
+    id="jobTitle"
+    value={product.jobTitle}
+    onChange={(e) => onInputChange(e, 'jobTitle')}
+    required
+    className={classNames({
+      'p-invalid': submitted && !product.jobTitle,
+    })}
+  />
+  {submitted && !product.jobTitle && (
+    <small className="p-invalid">Job Title is required.</small>
+  )}
+</div>
+<div className="field">
+  <label htmlFor="workEmail">Work Email Address</label>
+  <InputText
+    id="workEmail"
+    value={product.workEmail}
+    onChange={(e) => onInputChange(e, 'workEmail')}
+    required
+    className={classNames({
+      'p-invalid': submitted && !product.workEmail,
+    })}
+  />
+  {submitted && !product.workEmail && (
+    <small className="p-invalid">Work Email Address is required.</small>
+  )}
+</div>
+<div className="field">
+  <label htmlFor="reportingTo">Reporting To</label>
+  <InputText
+    id="reportingTo"
+    value={product.reportingTo}
+    onChange={(e) => onInputChange(e, 'reportingTo')}
+    required
+    className={classNames({
+      'p-invalid': submitted && !product.reportingTo,
+    })}
+  />
+  {submitted && !product.reportingTo && (
+    <small className="p-invalid">Reporting To is required.</small>
+  )}
+</div>
+<div className="field">
+  <label htmlFor="jobGrade">Job Grade</label>
+  <InputText
+    id="jobGrade"
+    value={product.jobGrade}
+    onChange={(e) => onInputChange(e, 'jobGrade')}
+    required
+    className={classNames({
+      'p-invalid': submitted && !product.jobGrade,
+    })}
+  />
+  {submitted && !product.jobGrade && (
+    <small className="p-invalid">Job Grade is required.</small>
+  )}
+</div>
+<div className="field">
+  <label htmlFor="employmentDate">Employment Date</label>
+  <Calendar
+    id="employmentDate"
+    value={product.employmentDate}
+    onChange={(e) => onInputChange(e, 'employmentDate')}
+    dateFormat="yy-mm-dd"
+    required
+    className={classNames({
+      'p-invalid': submitted && !product.employmentDate,
+    })}
+  />
+  {submitted && !product.employmentDate && (
+    <small className="p-invalid">Employment Date is required.</small>
+  )}
+</div>
+<div className="field">
+  <label htmlFor="leaveRatePerMonth">Leave Computation Rate per Month</label>
+  <InputText
+    id="leaveRatePerMonth"
+    value={product.leaveRatePerMonth}
+    onChange={(e) => onInputChange(e, 'leaveRatePerMonth')}
+    required
+    className={classNames({
+      'p-invalid': submitted && !product.leaveRatePerMonth,
+    })}
+  />
+  {submitted && !product.leaveRatePerMonth && (
+    <small className="p-invalid">Leave Computation Rate per Month is required.</small>
+  )}
+</div>
+<div className="field">
+  <label htmlFor="leaveStartDate">Leave Computation Starting Date</label>
+  <Calendar
+    id="leaveStartDate"
+    value={product.leaveStartDate}
+    onChange={(e) => onInputChange(e, 'leaveStartDate')}
+    dateFormat="yy-mm-dd"
+    required
+    className={classNames({
+      'p-invalid': submitted && !product.leaveStartDate,
+    })}
+  />
+  {submitted && !product.leaveStartDate && (
+    <small className="p-invalid">Leave Computation Starting Date is required.</small>
+  )}
+</div>
+<div className="field">
+  <label htmlFor="carryForwardDays">Previous Year Carry Forward Days</label>
+  <InputText
+    id="carryForwardDays"
+    value={product.carryForwardDays}
+    onChange={(e) => onInputChange(e, 'carryForwardDays')}
+    required
+    className={classNames({
+      'p-invalid': submitted && !product.carryForwardDays,
+    })}
+  />
+  {submitted && !product.carryForwardDays && (
+    <small className="p-invalid">Previous Year Carry Forward Days is required.</small>
+  )}
+</div>
+
           </Dialog>
+          {/* end of create employee form */}
 
           <Dialog
             visible={deleteProductDialog}
