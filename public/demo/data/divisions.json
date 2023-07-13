@@ -1,7 +1,11 @@
-
 {
-    "data": [
-        {"id": "1000","divisionHead": "P.O.BOX 19871-00800","divisionName": "Scope and impact","additionalInfo": "DEMO MISSION STATEMENT","createdOn": "12/06/2023"}
-    ]
+  "data": [
+    {
+      "id": "1000",
+      "divisionHead": "P.O.BOX 19871-00800",
+      "divisionName": "ICT DIVISON",
+      "additionalInfo": "DEMO MISSION STATEMENT",
+      "createdOn": "12/06/2023"
+    }
+  ]
 }
-    

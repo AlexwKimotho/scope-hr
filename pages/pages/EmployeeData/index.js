@@ -5,7 +5,6 @@ import { Dialog } from "primereact/dialog";
 import { FileUpload } from "primereact/fileupload";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { Rating } from "primereact/rating";
 import { Toast } from "primereact/toast";
 import { Toolbar } from "primereact/toolbar";
 import { classNames } from "primereact/utils";
@@ -13,7 +12,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { ProductService } from "../../../demo/service/ProductService";
 import { Dropdown } from "primereact/dropdown";
 import { Calendar } from "primereact/calendar";
-import { DivisionDataComponent } from "../../../demo/service/Divisions";
+import { Divisions } from "../../../demo/service/Divisions";
 
 
 const OragnizationProfile = () => {
@@ -46,7 +45,7 @@ const OragnizationProfile = () => {
 
   const countryCodes = [
     { label: "+1", value: "1" },
-    { label: "+91", value: "91" },
+    { label: "+254", value: "254" },
     // Add more country codes as needed
   ];
 
@@ -206,11 +205,45 @@ const OragnizationProfile = () => {
     });
   };
 
-  const onCategoryChange = (e) => {
-    let _product = { ...product };
-    _product["category"] = e.value;
-    setProduct(_product);
+  const handleFileUpload = (event) => {
+    const uploadedFiles = event.files; // Array of uploaded files
+  
+    // Process the uploaded files
+    // Example: You can send the files to the server using an API call
+    // Replace the following code with your own file upload logic
+  
+    // Assuming you have an uploadFilesToServer function that handles the file upload
+    uploadFilesToServer(uploadedFiles)
+      .then((response) => {
+        // Handle the server response
+        console.log("Files uploaded successfully!");
+      })
+      .catch((error) => {
+        // Handle the error
+        console.error("Error uploading files:", error);
+      });
   };
+  
+  const handleProfilePictureUpload = (event) => {
+    const uploadedFiles = event.files; // Array of uploaded files
+  
+    // Process the uploaded profile picture file
+    // Example: You can send the file to the server using an API call
+    // Replace the following code with your own profile picture upload logic
+  
+    // Assuming you have an uploadProfilePictureToServer function that handles the file upload
+    uploadProfilePictureToServer(uploadedFiles[0])
+      .then((response) => {
+        // Handle the server response
+        console.log("Profile picture uploaded successfully!");
+      })
+      .catch((error) => {
+        // Handle the error
+        console.error("Error uploading profile picture:", error);
+      });
+  };
+
+  
 
   const onInputChange = (e, name) => {
     const val = (e.target && e.target.value) || "";
@@ -220,13 +253,7 @@ const OragnizationProfile = () => {
     setProduct(_product);
   };
 
-  const onInputNumberChange = (e, name) => {
-    const val = e.value || 0;
-    let _product = { ...product };
-    _product[`${name}`] = val;
 
-    setProduct(_product);
-  };
 
   const leftToolbarTemplate = () => {
     return (
@@ -272,130 +299,62 @@ const OragnizationProfile = () => {
     );
   };
 
-  const codeBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title">Coddde</span>
-        {rowData.code}
-      </>
-    );
-  };
+ 
 
   const nameBodyTemplate = (rowData) => {
     return (
       <>
-        <span className="p-column-title"> Company Name</span>
+        <span className="p-column-title"> Employee Name</span>
         {rowData.name}
       </>
     );
   };
-  const addressBodyTemplate = (rowData) => {
+  const genderBodyTemplate = (rowData) => {
     return (
       <>
-        <span className="p-column-title"> Address </span>
-        {rowData.address}
+        <span className="p-column-title"> Gender </span>
+        {rowData.gender}
       </>
     );
   };
 
-  const imageBodyTemplate = (rowData) => {
+
+
+  const divisionBodyTemplate = (rowData) => {
     return (
       <>
-        <span className="p-column-title">Image</span>
-        <img
-          src={`/demo/images/product/${rowData.image}`}
-          alt={rowData.image}
-          className="shadow-2"
-          width="100"
-        />
+        <span className="p-column-title"> Division </span>
+        {rowData.division}
       </>
     );
   };
 
-  const priceBodyTemplate = (rowData) => {
+  const departmentBodyTemplate = (rowData) => {
     return (
       <>
-        <span className="p-column-title">Price</span>
-        {formatCurrency(rowData.price)}
+        <span className="p-column-title">Department</span>
+        {rowData.department}
+      </>
+    );
+  };
+  const jobtitleBodyTemplate = (rowData) => {
+    return (
+      <>
+        <span className="p-column-title">Job Title</span>
+        {rowData.jobtitle}
       </>
     );
   };
 
-  const missionBodyTemplate = (rowData) => {
+  const jobstatusBodyTemplate = (rowData) => {
     return (
       <>
-        <span className="p-column-title">Mission</span>
-        {rowData.mission}
-      </>
-    );
-  };
-  const visionBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title">Vision</span>
-        {rowData.vision}
+        <span className="p-column-title">Job Status</span>
+        {rowData.jobstatus}
       </>
     );
   };
 
-  const ratingBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title">Reviews</span>
-        <Rating value={rowData.rating} readOnly cancel={false} />
-      </>
-    );
-  };
-
-  const statusBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title">Status</span>
-        <span
-          className={`product-badge status-${rowData.inventoryStatus.toLowerCase()}`}
-        >
-          {rowData.inventoryStatus}
-        </span>
-      </>
-    );
-  };
-
-  const employeeBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title"> Employee</span>
-        <Button
-          label="Add Employee"
-          icon="pi pi-plus"
-          severity="sucess"
-          className="mr-2"
-          onClick={openNew2}
-        />{" "}
-      </>
-    );
-  };
-  const awardBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title"> Employee</span>
-
-        <FileUpload
-          mode="basic"
-          accept="image/*"
-          maxFileSize={1000000}
-          label="Import"
-          chooseLabel="Awards"
-          className="mr-2 inline-block"
-        />
-        {/* <Button
-          label="Export"
-          icon="pi pi-upload"
-          severity="help"
-          onClick={exportCSV}
-        /> */}
-      </>
-    );
-  };
 
   const actionBodyTemplate = (rowData) => {
     return (
@@ -475,7 +434,7 @@ const OragnizationProfile = () => {
             left={leftToolbarTemplate}
             right={rightToolbarTemplate}
           ></Toolbar>
-
+{/* start of the table  */}
           <DataTable
             ref={dt}
             value={products}
@@ -487,9 +446,9 @@ const OragnizationProfile = () => {
             rowsPerPageOptions={[5, 10, 25]}
             className="datatable-responsive"
             paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
-            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Organization"
+            currentPageReportTemplate="Showing {first} to {last} of {totalRecords} Employees"
             globalFilter={globalFilter}
-            emptyMessage="No products found."
+            emptyMessage="No employees found."
             header={header}
             responsiveLayout="scroll"
           >
@@ -500,44 +459,44 @@ const OragnizationProfile = () => {
             {/* <Column field="code" header="Code" sortable body={codeBodyTemplate} headerStyle={{ minWidth: '15rem' }}></Column> */}
             <Column
               field="name"
-              header="Company Name"
+              header="Employee Name"
               sortable
               body={nameBodyTemplate}
               headerStyle={{ minWidth: "11.5rem" }}
             ></Column>
             {/* <Column header="Image" body={imageBodyTemplate}></Column> */}
             <Column
-              field="address"
-              header="Address"
-              body={addressBodyTemplate}
+              field="gender"
+              header="Gender"
+              body={genderBodyTemplate}
               sortable
               headerStyle={{ minWidth: "12.5rem" }}
             ></Column>
             <Column
-              field="mission"
-              header="Mission statement"
+              field="division"
+              header="Division"
               sortable
-              body={missionBodyTemplate}
-              headerStyle={{ minWidth: "15rem" }}
+              body={divisionBodyTemplate}
+              headerStyle={{ minWidth: "12.5rem" }}
             ></Column>
             <Column
-              field="vison"
-              header="Vision statement"
+              field="department"
+              header="Department"
               sortable
-              body={visionBodyTemplate}
+              body={departmentBodyTemplate}
               headerStyle={{ minWidth: "15rem", maxWidth: "15rem" }}
             ></Column>
             <Column
-              field="employee"
-              header="Add Employee"
-              body={employeeBodyTemplate}
+              field="Job Title"
+              header="Job Title"
+              body={jobtitleBodyTemplate}
               sortable
               headerStyle={{ minWidth: "10rem", maxWidth: "15rem" }}
             ></Column>
             <Column
-              field="award"
-              header="Add Award"
-              body={awardBodyTemplate}
+              field="Job Status"
+              header="Job Status"
+              body={jobstatusBodyTemplate}
               sortable
               headerStyle={{ minWidth: "10rem" }}
             ></Column>
@@ -960,6 +919,62 @@ const OragnizationProfile = () => {
   {submitted && !product.carryForwardDays && (
     <small className="p-invalid">Previous Year Carry Forward Days is required.</small>
   )}
+
+<div className="field">
+    <label htmlFor="professionalQualifications">
+      Professional Qualifications
+    </label>
+    <InputTextarea
+      id="professionalQualifications"
+      value={product.professionalQualifications}
+      onChange={(e) => onInputChange(e, "professionalQualifications")}
+      required
+      rows={3}
+      cols={20}
+    />
+  </div>
+
+<div className="field">
+    <label htmlFor="professionalQualifications">
+      Professional Qualifications
+    </label>
+    <InputTextarea
+      id="professionalQualifications"
+      value={product.professionalQualifications}
+      onChange={(e) => onInputChange(e, "professionalQualifications")}
+      required
+      rows={3}
+      cols={20}
+    />
+  </div>
+
+  {/* Profile Picture Button */}
+  <div className="field">
+    <label htmlFor="profilePicture">Profile Picture</label>
+    <FileUpload
+      id="profilePicture"
+      name="profilePicture"
+      chooseLabel="Choose"
+      mode="basic"
+      accept="image/*"
+      maxFileSize={1000000} // Example maximum file size of 1MB
+      uploadHandler={handleProfilePictureUpload} // Replace with your own profile picture upload handler function
+    />
+  </div>
+  {/* File Attachments Import Button */}
+  <div className="field">
+    <label htmlFor="fileAttachments">File Attachments</label>
+    <FileUpload
+      id="fileAttachments"
+      name="fileAttachments"
+      chooseLabel="Import Files"
+      mode="basic"
+      multiple
+      auto
+      maxFileSize={10000000} // Example maximum file size of 1MB
+      uploadHandler={handleFileUpload} // Replace with your own file upload handler function
+    />
+  </div>
 </div>
 
           </Dialog>

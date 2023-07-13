@@ -53,6 +53,7 @@ const AppConfig = (props) => {
     useEffect(() => {
         applyScale();
     }, [layoutConfig.scale]);
+    
 
     return (
         <>
@@ -103,7 +104,7 @@ const AppConfig = (props) => {
                     </>
                 )}
 
-                {/* <h5>Bootstrap</h5>
+                <h5>Bootstrap</h5>
                 <div className="grid">
                     <div className="col-3">
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('bootstrap4-light-blue', 'light')}>
@@ -235,11 +236,11 @@ const AppConfig = (props) => {
                             <img src="/layout/images/themes/lara-dark-teal.png" className="w-2rem h-2rem" alt="Lara Dark Teal" />
                         </button>
                     </div>
-                </div> */}
+                </div>
 
                 <h5>PrimeOne Design - 2021</h5>
                 <div className="grid">
-                    {/* <div className="col-3">
+                    <div className="col-3">
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('saga-blue', 'light')}>
                             <img src="/layout/images/themes/saga-blue.png" className="w-2rem h-2rem" alt="Saga Blue" />
                         </button>
@@ -253,13 +254,13 @@ const AppConfig = (props) => {
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('saga-orange', 'light')}>
                             <img src="/layout/images/themes/saga-orange.png" className="w-2rem h-2rem" alt="Saga Orange" />
                         </button>
-                    </div> */}
+                    </div>
                     <div className="col-3">
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('saga-purple', 'light')}>
                             <img src="/layout/images/themes/saga-purple.png" className="w-2rem h-2rem" alt="Saga Purple" />
                         </button>
                     </div>
-                    {/* <div className="col-3">
+                    <div className="col-3">
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('vela-blue', 'dark')}>
                             <img src="/layout/images/themes/vela-blue.png" className="w-2rem h-2rem" alt="Vela Blue" />
                         </button>
@@ -268,8 +269,8 @@ const AppConfig = (props) => {
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('vela-green', 'dark')}>
                             <img src="/layout/images/themes/vela-green.png" className="w-2rem h-2rem" alt="Vela Green" />
                         </button>
-                    </div> */}
-                    {/* <div className="col-3">
+                    </div> 
+                    <div className="col-3">
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('vela-orange', 'dark')}>
                             <img src="/layout/images/themes/vela-orange.png" className="w-2rem h-2rem" alt="Vela Orange" />
                         </button>
@@ -293,12 +294,12 @@ const AppConfig = (props) => {
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('arya-orange', 'dark')}>
                             <img src="/layout/images/themes/arya-orange.png" className="w-2rem h-2rem" alt="Arya Orange" />
                         </button>
-                    </div> */}
-                    {/* <div className="col-3">
+                    </div>
+                    <div className="col-3">
                         <button className="p-link w-2rem h-2rem" onClick={() => changeTheme('arya-purple', 'dark')}>
                             <img src="/layout/images/themes/arya-purple.png" className="w-2rem h-2rem" alt="Arya Purple" />
                         </button>
-                    </div> */}
+                    </div>
                 </div>
             </Sidebar>
         </>
