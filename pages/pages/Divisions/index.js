@@ -5,13 +5,13 @@ import { Dialog } from "primereact/dialog";
 import { FileUpload } from "primereact/fileupload";
 import { InputText } from "primereact/inputtext";
 import { InputTextarea } from "primereact/inputtextarea";
-import { Rating } from "primereact/rating";
 import { Toast } from "primereact/toast";
 import { Toolbar } from "primereact/toolbar";
 import { classNames } from "primereact/utils";
 import React, { useEffect, useRef, useState } from "react";
 import { Divisions } from "../../../demo/service/Divisions";
-import axios from "axios";
+import { Calendar } from "primereact/calendar";
+
 const Division = () => {
   let emptyProduct = {
     id: null,
@@ -33,6 +33,8 @@ const Division = () => {
   const [selectedProducts, setSelectedProducts] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   const [globalFilter, setGlobalFilter] = useState(null);
+  const [createdOn, setCreatedOn] = useState(null);
+
   const toast = useRef(null);
   const dt = useRef(null);
 
@@ -172,27 +174,20 @@ const Division = () => {
     });
   };
 
-  const onCategoryChange = (e) => {
-    let _product = { ...product };
-    _product["category"] = e.value;
-    setProduct(_product);
-  };
-
   const onInputChange = (e, name) => {
-    const val = (e.target && e.target.value) || "";
-    let _product = { ...product };
-    _product[`${name}`] = val;
-
-    setProduct(_product);
+    const value = name === "createdOn" ? e.value : e.target.value;
+    setProduct((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const onInputNumberChange = (e, name) => {
-    const val = e.value || 0;
-    let _product = { ...product };
-    _product[`${name}`] = val;
-
-    setProduct(_product);
-  };
+  // const onInputChanges = (e, name) => {
+  //   setProduct((prevState) => ({
+  //     ...prevState,
+  //     [name]: e.target.value,
+  //   }));
+  // };
 
   const leftToolbarTemplate = () => {
     return (
@@ -238,20 +233,11 @@ const Division = () => {
     );
   };
 
-  const codeBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title">Coddde</span>
-        {rowData.code}
-      </>
-    );
-  };
-
-  const divisionNameBodyTemplate = (rowData) => {
+  const nameBodyTemplate = (rowData) => {
     return (
       <>
         <span className="p-column-title"> Division Name</span>
-        {rowData.divisionName}
+        {rowData.name}
       </>
     );
   };
@@ -260,29 +246,6 @@ const Division = () => {
       <>
         <span className="p-column-title"> Division Head </span>
         {rowData.divisionHead}
-      </>
-    );
-  };
-
-  const imageBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title">Image</span>
-        <img
-          src={`/demo/images/product/${rowData.image}`}
-          alt={rowData.image}
-          className="shadow-2"
-          width="100"
-        />
-      </>
-    );
-  };
-
-  const priceBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title">Price</span>
-        {formatCurrency(rowData.price)}
       </>
     );
   };
@@ -300,65 +263,6 @@ const Division = () => {
       <>
         <span className="p-column-title">created On</span>
         {rowData.createdOn}
-      </>
-    );
-  };
-
-  const ratingBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title">Reviews</span>
-        <Rating value={rowData.rating} readOnly cancel={false} />
-      </>
-    );
-  };
-
-  const statusBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title">Status</span>
-        <span
-          className={`product-badge status-${rowData.inventoryStatus.toLowerCase()}`}
-        >
-          {rowData.inventoryStatus}
-        </span>
-      </>
-    );
-  };
-
-  const employeeBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title"> Employee</span>
-        <Button
-          label="Add Employee"
-          icon="pi pi-plus"
-          severity="sucess"
-          className="mr-2"
-          onClick={openNew2}
-        />{" "}
-      </>
-    );
-  };
-  const awardBodyTemplate = (rowData) => {
-    return (
-      <>
-        <span className="p-column-title"> Employee</span>
-
-        <FileUpload
-          mode="basic"
-          accept="image/*"
-          maxFileSize={1000000}
-          label="Import"
-          chooseLabel="Awards"
-          className="mr-2 inline-block"
-        />
-        {/* <Button
-          label="Export"
-          icon="pi pi-upload"
-          severity="help"
-          onClick={exportCSV}
-        /> */}
       </>
     );
   };
@@ -468,7 +372,7 @@ const Division = () => {
               field="name"
               header="Division Name"
               sortable
-              body={divisionNameBodyTemplate}
+              body={nameBodyTemplate}
               headerStyle={{ minWidth: "11.5rem" }}
             ></Column>
             {/* <Column header="Image" body={imageBodyTemplate}></Column> */}
@@ -493,6 +397,7 @@ const Division = () => {
               body={createdOnBodyTemplate}
               headerStyle={{ minWidth: "15rem", maxWidth: "15rem" }}
             ></Column>
+
             <Column
               body={actionBodyTemplate}
               headerStyle={{ minWidth: "10rem" }}
@@ -542,6 +447,22 @@ const Division = () => {
                 autoFocus
               />
             </div>
+            <div className="field">
+              <label htmlFor="createdOn">Created On</label>
+              <Calendar
+                id="createdOn"
+                value={product.createdOn}
+                onChange={(e) => setCreatedOn(e.value)}
+                required
+                showIcon
+                className={classNames({
+                  "p-invalid": submitted && !createdOn,
+                })}
+              />
+              {submitted && !createdOn && (
+                <small className="p-invalid">Created On is required.</small>
+              )}
+            </div>
 
             <div className="field">
               <label htmlFor="additionalInfo">Additional info</label>
@@ -554,7 +475,6 @@ const Division = () => {
                 cols={20}
               />
             </div>
-
           </Dialog>
 
           <Dialog
@@ -605,6 +525,3 @@ const Division = () => {
 };
 
 export default Division;
-
-
-

@@ -1,7 +1,16 @@
-
 {
-    "data": [
-        {"id": "1000","address": "P.O.BOX 19871-00800","name": "Scope and impact","mission": "DEMO MISSION STATEMENT","vision": "DEMO VISION STATEMENT","price": 65,"category": "Accessories","quantity": 24,"inventoryStatus": "INSTOCK","rating": 5}
-    ]
+  "data": [
+    {
+      "id": "1000",
+      "address": "P.O.BOX 19871-00800",
+      "name": "Scope and impact",
+      "mission": "DEMO MISSION STATEMENT",
+      "vision": "DEMO VISION STATEMENT",
+      "price": 65,
+      "category": "Accessories",
+      "quantity": 24,
+      "inventoryStatus": "INSTOCK",
+      "rating": 5
+    }
+  ]
 }
-    

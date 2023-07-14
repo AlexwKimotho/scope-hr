@@ -9,10 +9,9 @@ import { Toast } from "primereact/toast";
 import { Toolbar } from "primereact/toolbar";
 import { classNames } from "primereact/utils";
 import React, { useEffect, useRef, useState } from "react";
-import { ProductService } from "../../../demo/service/ProductService";
+import { ProductService } from "../../../demo/service/EmployeeData";
 import { Dropdown } from "primereact/dropdown";
 import { Calendar } from "primereact/calendar";
-import { Divisions } from "../../../demo/service/Divisions";
 
 
 const OragnizationProfile = () => {

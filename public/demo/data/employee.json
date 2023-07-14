@@ -1,0 +1,13 @@
+{
+    "data": [
+      {
+        "id": "1000",
+        "gender": "Male",
+        "name": "john Doe",
+        "division": "ICT division",
+        "department": "ICT department",
+        "jobtitle": "Software engineer",
+        "jobstatus": "Active"
+      }
+    ]
+  }
